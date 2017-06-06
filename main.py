@@ -3,7 +3,7 @@
 DESCRIPTION
 
     Demonstrate the use of the stochastic generator for radar rainfall fields based on the short-space Fourier transform as described in Nerini et al. (2017), "A non-stationary stochastic ensemble generator for radar rainfall
-    fields based on the short-space Fourier transform", doi:10.5194/hess-21-1-2017. 
+    fields based on the short-space Fourier transform", doi:10.5194/hess-???. 
 
 AUTHOR
 

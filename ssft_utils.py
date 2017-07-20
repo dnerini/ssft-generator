@@ -75,7 +75,7 @@ def ssft_generator(rainField, winsize=128, overlap=0.5):
                 
                 # Build mask based on window
                 mask = np.zeros(rainField.shape) 
-                mask[idxi[0]:idxi[1],idxj[0]:idxj[1]] = wind
+                mask[idxi.item(0):idxi.item(1),idxj.item(0):idxj.item(1)] = wind
                 
                 # Apply the mask
                 rmask = mask*rainField

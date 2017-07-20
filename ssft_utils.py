@@ -88,7 +88,7 @@ def ssft_generator(rainField, winsize=128, overlap=0.5):
                     
                     # Normalize the spectrum
                     fftw.imag = ( fftw.imag - np.mean(fftw.imag) ) / np.std(fftw.imag)
-                    fftw.real = ( fftw.real - np.mean(fftw.real) ) / np.std(fftw.imag)
+                    fftw.real = ( fftw.real - np.mean(fftw.real) ) / np.std(fftw.real)
                     
                     # Keep only the amplitude spectrum (its absolute value)
                     fftw = np.abs(fftw)

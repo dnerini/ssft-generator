@@ -15,7 +15,7 @@ VERSION
 """
 
 import matplotlib.pyplot as plt
-from ssft_utils import ssft_generator, read_data
+from ssft_utils import ssft_generator, nested_generator, read_data
 
 
 #+++++++++++ Select radar image
@@ -39,14 +39,19 @@ winsize1 = rainField_dBZ.shape[0]
 overlap1 = 0
 corrNoiseGlobal = ssft_generator(rainField_dBZ, winsize=winsize1, overlap=overlap1)
 
-# Apply local generator
-winsize2 = 128
+# Apply SSFT local generator
+winsize2 = 64
 overlap2 = 0.5
-corrNoiseLocal = ssft_generator(rainField_dBZ, winsize=winsize2, overlap=overlap2)
+corrNoiseLocalSSFT = ssft_generator(rainField_dBZ, winsize=winsize2, overlap=overlap2)
+
+# Apply nested local generator
+max_level = 3
+overlap3 = 10
+corrNoiseLocalNested = nested_generator(rainField_dBZ, max_level = max_level, overlap=overlap3)[:,:,0]
 
 #+++++++++++ Plot the results
 
-f,ax = plt.subplots(1,3)
+f,ax = plt.subplots(1,4)
 
 # Reference field
 ax[0].imshow(rainField_dBZ,cmap='Greys',interpolation='nearest',vmin=0,vmax=60)
@@ -59,10 +64,17 @@ ax[1].set_xticks([]);ax[1].set_yticks([]);ax[1].set_xticklabels([]);ax[1].set_yt
 ax[1].set_title('Global noise')
 ax[1].text(0.02,0.98,'winsize = ' + str(winsize1) + '\noverlap = ' + str(overlap1),fontsize=11,transform=ax[1].transAxes,ha='left',va='top') 
 
-# Local noise
-ax[2].imshow(corrNoiseLocal,interpolation='nearest',vmin=-3.5,vmax=3.5)
+# Local noise (SSFT)
+ax[2].imshow(corrNoiseLocalSSFT,interpolation='nearest',vmin=-3.5,vmax=3.5)
 ax[2].set_xticks([]);ax[2].set_yticks([]);ax[2].set_xticklabels([]);ax[2].set_yticklabels([])
-ax[2].set_title('Local noise')
+ax[2].set_title('Local noise (SSFT)')
 ax[2].text(0.02,0.98,'winsize = ' + str(winsize2) + '\noverlap = ' + str(overlap2),fontsize=11,transform=ax[2].transAxes,ha='left',va='top') 
+
+# Local noise (nested)
+ax[3].imshow(corrNoiseLocalNested,interpolation='nearest',vmin=-3.5,vmax=3.5)
+ax[3].set_xticks([]);ax[3].set_yticks([]);ax[3].set_xticklabels([]);ax[3].set_yticklabels([])
+ax[3].set_title('Local noise (nested)')
+ax[3].text(0.02,0.98,'max_level = ' + str(max_level) + '\noverlap = ' + str(overlap3),fontsize=11,transform=ax[3].transAxes,ha='left',va='top') 
+
 
 plt.show()
